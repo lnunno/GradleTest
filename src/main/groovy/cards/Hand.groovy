@@ -20,7 +20,7 @@ enum HandType {
  */
 @ToString
 class Hand {
-    List<Card> cardList = [];
+    def cardList = [];
 
     Hand() {}
 
@@ -30,6 +30,25 @@ class Hand {
 
     def addToHand(Card card) {
         cardList.add(card);
+    }
+
+    def addToHand(List<Card> cardList){
+        this.cardList.addAll(cardList)
+    }
+
+    /**
+     * Discard whole hand.
+     */
+    def discard(){
+        this.cardList.clear();
+    }
+
+    /**
+     * Discard a specific card.
+     * @param card The card to discard.
+     */
+    def discard(Card card){
+        this.cardList.remove(card);
     }
 
     HandType evaluate(){
