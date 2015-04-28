@@ -18,6 +18,6 @@ println Rank.Queen.toString()
 Card c = new Card(Rank.Ace, Suit.Spade)
 println c
 Deck myDeck = new Deck()
-Player me = new Player()
+Player me = new Player("Lucas")
 me.drawFromDeck(myDeck)
 println me

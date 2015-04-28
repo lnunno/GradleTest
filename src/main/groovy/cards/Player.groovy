@@ -7,9 +7,16 @@ import groovy.transform.ToString
  */
 @ToString
 class Player {
+
+    String name;
+
     Hand hand = new Hand();
 
     Player() {}
+
+    Player(String name){
+        this.name = name;
+    }
 
     Player(Hand hand) {
         this.hand = hand;
