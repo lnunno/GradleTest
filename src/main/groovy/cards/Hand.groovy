@@ -59,7 +59,7 @@ class Hand {
         Rank firstRank = sortedCardListRank[0].rank
         Rank lastRank = sortedCardListRank[4].rank
         def rankDifference = Math.abs(firstRank.ordinal()-lastRank.ordinal())
-        boolean isStraight = (rankDifference == 5) && (cardList.unique(false,rankUnique).size() == cardList.size())
+        boolean isStraight = (rankDifference == 4) && (cardList.unique(false,rankUnique).size() == cardList.size())
         def sortedCardListSuit = cardList.sort(false, { a,b -> a.suit <=> b.suit } as Comparator)
         Suit firstSuit = sortedCardListSuit[0].suit
         Suit lastSuit = sortedCardListSuit[4].suit
