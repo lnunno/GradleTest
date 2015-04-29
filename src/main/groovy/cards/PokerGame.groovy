@@ -5,5 +5,5 @@ package cards
  */
 class PokerGame {
 
-    def NUM_CARDS_IN_HAND = 5
+    static int NUM_CARDS_IN_HAND = 5
 }

@@ -18,6 +18,10 @@ println Rank.Queen.toString()
 Card c = new Card(Rank.Ace, Suit.Spade)
 println c
 Deck myDeck = new Deck()
+myDeck.shuffle()
 Player me = new Player("Lucas")
 me.drawFromDeck(myDeck)
 println me
+me.drawHand(myDeck)
+println me
+me.hand.evaluate()

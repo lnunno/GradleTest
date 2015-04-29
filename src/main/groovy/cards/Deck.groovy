@@ -29,7 +29,9 @@ class Deck {
     }
 
     def draw(int amount) {
-        return cardList.take(amount);
+        def drawnCards = cardList.take(amount)
+        cardList = cardList.drop(amount)
+        return drawnCards;
     }
 
     @Override

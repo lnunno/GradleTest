@@ -27,7 +27,7 @@ class Player {
     }
 
     def drawHand(Deck deck){
-        hand.discard();
+        hand.discard()
         List<Card> drawnCards = deck.draw(PokerGame.NUM_CARDS_IN_HAND)
         hand.addToHand(drawnCards)
     }

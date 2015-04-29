@@ -20,7 +20,7 @@ enum HandType {
  */
 @ToString
 class Hand {
-    def cardList = [];
+    def cardList = []
 
     Hand() {}
 
@@ -29,11 +29,11 @@ class Hand {
     }
 
     def addToHand(Card card) {
-        cardList.add(card);
+        cardList += card;
     }
 
     def addToHand(List<Card> cardList){
-        this.cardList.addAll(cardList)
+        this.cardList += cardList
     }
 
     /**
@@ -51,8 +51,26 @@ class Hand {
         this.cardList.remove(card);
     }
 
+    def rankUnique = { a, b -> a.rank <=> b.rank }
+    def suitUnique = { a, b -> a.suit <=> b.suit }
+
     HandType evaluate(){
-        sortedCardListRank = cardList.sort();
-        sortedCardListSuit = cardList.sort({ a,b -> a.suit <=> b.suit } as Comparator)
+        def sortedCardListRank = cardList.sort(false);
+        Rank firstRank = sortedCardListRank[0].rank
+        Rank lastRank = sortedCardListRank[4].rank
+        def rankDifference = Math.abs(firstRank.ordinal()-lastRank.ordinal())
+        boolean isStraight = (rankDifference == 5) && (cardList.unique(false,rankUnique).size() == cardList.size())
+        def sortedCardListSuit = cardList.sort(false, { a,b -> a.suit <=> b.suit } as Comparator)
+        Suit firstSuit = sortedCardListSuit[0].suit
+        Suit lastSuit = sortedCardListSuit[4].suit
+        def suitDifference = Math.abs(firstSuit.ordinal()-lastSuit.ordinal())
+        boolean isFlush = suitDifference == 0
+        if(isStraight){
+            return HandType.Straight
+        }
+        if(isFlush){
+            return HandType.Flush
+        }
+        return HandType.High_Card
     }
 }
