@@ -54,7 +54,11 @@ class Hand {
     def rankUnique = { a, b -> a.rank <=> b.rank }
     def suitUnique = { a, b -> a.suit <=> b.suit }
 
-    HandType evaluate(){
+    HandType evaluate() {
+        spock
+        if (cardList.size() != 5) {
+            throw new UnsupportedOperationException("Cannot evaluate hand with size not equal to 5!")
+        }
         def sortedCardListRank = cardList.sort(false);
         Rank firstRank = sortedCardListRank[0].rank
         Rank lastRank = sortedCardListRank[4].rank
