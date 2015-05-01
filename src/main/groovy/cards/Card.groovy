@@ -19,4 +19,8 @@ class Card {
     String toString() {
         return rank.toString() + ' of ' + suit.toString() + 's'
     }
+
+    String toSymbol(){
+        return rank.symbol + suit.symbol
+    }
 }

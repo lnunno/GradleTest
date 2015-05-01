@@ -26,10 +26,17 @@ class Player {
         hand.addToHand(deck.draw());
     }
 
+    /**
+     * Discard current hand and draw a new one.
+     * @param deck Deck to draw from.
+     */
     def drawHand(Deck deck){
         hand.discard()
         List<Card> drawnCards = deck.draw(PokerGame.NUM_CARDS_IN_HAND)
         hand.addToHand(drawnCards)
     }
 
+    def discardHand() {
+        hand.discard()
+    }
 }

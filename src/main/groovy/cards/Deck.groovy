@@ -7,13 +7,25 @@ class Deck {
 
     List<Card> cardList = [];
 
-    Deck() {
+    static def freshDeck = []
+    static {
         for (suit in (Suit.Club..Suit.Spade)) {
-            for (rank in (Rank.One..Rank.Ace)) {
+            for (rank in (Rank.Two..Rank.Ace)) {
                 Card c = new Card(rank, suit)
-                cardList.add(c)
+                freshDeck.add(c)
             }
         }
+        freshDeck = freshDeck.asImmutable() // Make immutable
+    }
+
+    Deck() {
+        this.cardList = freshDeck.collect()
+    }
+
+    static Deck shuffledDeck(){
+        Deck deck = new Deck()
+        deck.shuffle()
+        return deck
     }
 
     def shuffle() {
