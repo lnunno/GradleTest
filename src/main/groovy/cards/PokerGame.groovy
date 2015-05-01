@@ -6,4 +6,5 @@ package cards
 class PokerGame {
 
     def static NUM_CARDS_IN_HAND = 5
+    def static SEED = 1234
 }

@@ -50,6 +50,20 @@ class Hand {
         this.cardList.remove(card);
     }
 
+    static def combinations(def ls){
+        if (ls.size() == 0 ){
+            return []
+        }
+        def head = ls[0]
+        def cdr = ls.subList(1,ls.size)
+        def acc = []
+        cdr.eachWithIndex { it, index ->
+            def sub = cdr.sublist(index,cdr.size())
+            acc += [head] + combinations(sub)
+        }
+        return acc
+    }
+
     def rankUnique = { a, b -> a.rank <=> b.rank }
 
     HandType evaluate() {
