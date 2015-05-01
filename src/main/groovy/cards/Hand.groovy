@@ -18,7 +18,7 @@ enum HandType {
  */
 class Hand {
     def cardList = []
-    HandType handType
+    HandType type
 
     Hand() {}
 
