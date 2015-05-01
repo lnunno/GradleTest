@@ -1,7 +1,5 @@
 package cards
 
-import groovy.transform.ToString
-
 enum HandType {
     High_Card,
     Pair,
@@ -20,6 +18,7 @@ enum HandType {
  */
 class Hand {
     def cardList = []
+    HandType handType
 
     Hand() {}
 
@@ -50,18 +49,24 @@ class Hand {
         this.cardList.remove(card);
     }
 
-    static def combinations(def ls){
-        if (ls.size() == 0 ){
-            return []
+    static def combinations(def ls, int size) {
+        def sets = [] as Set
+        ls.eachPermutation {
+            it = it.take(size)
+            it.sort()
+            sets << it
         }
-        def head = ls[0]
-        def cdr = ls.subList(1,ls.size)
-        def acc = []
-        cdr.eachWithIndex { it, index ->
-            def sub = cdr.sublist(index,cdr.size())
-            acc += [head] + combinations(sub)
+        return sets as List
+    }
+
+    static def bestHand(List<Card> holeCards, List<Card> communityCards) {
+        def combos = combinations(holeCards + communityCards, PokerGame.NUM_CARDS_IN_HAND)
+        def evaluatedHands = combos.collect { List<Card> it ->
+            Hand hand = new Hand(it)
+            hand.evaluate()
         }
-        return acc
+        def bestHand = evaluatedHands.max()
+        return bestHand
     }
 
     def rankUnique = { a, b -> a.rank <=> b.rank }
@@ -80,17 +85,17 @@ class Hand {
         Suit lastSuit = sortedCardListSuit[4].suit
         def suitDifference = Math.abs(firstSuit.ordinal() - lastSuit.ordinal())
         boolean isFlush = suitDifference == 0
-        def rankCounts = cardList.countBy {it.rank}
-        def quadEntries = rankCounts.findAll { it.value == 4}
-        def threeEntries = rankCounts.findAll { it.value == 3}
-        def pairEntries = rankCounts.findAll { it.value == 2} // Find all pairs
-        if (isStraight && isFlush){
+        def rankCounts = cardList.countBy { it.rank }
+        def quadEntries = rankCounts.findAll { it.value == 4 }
+        def threeEntries = rankCounts.findAll { it.value == 3 }
+        def pairEntries = rankCounts.findAll { it.value == 2 } // Find all pairs
+        if (isStraight && isFlush) {
             return HandType.Straight_Flush
         }
-        if (quadEntries.size() >= 1){
+        if (quadEntries.size() >= 1) {
             return HandType.Four_of_a_Kind
         }
-        if(threeEntries.size() >= 1 && pairEntries.size() >= 1){
+        if (threeEntries.size() >= 1 && pairEntries.size() >= 1) {
             return HandType.Full_House
         }
         if (isFlush) {
@@ -99,13 +104,13 @@ class Hand {
         if (isStraight) {
             return HandType.Straight
         }
-        if(threeEntries.size() >= 1){
+        if (threeEntries.size() >= 1) {
             return HandType.Three_of_a_Kind
         }
-        if(pairEntries.size() == 2){
+        if (pairEntries.size() == 2) {
             return HandType.Two_Pair
         }
-        if(pairEntries.size() == 1){
+        if (pairEntries.size() == 1) {
             return HandType.Pair
         }
         return HandType.High_Card
