@@ -5,23 +5,37 @@ package cards
  * Created by Lucas on 4/6/2015.
  */
 enum Rank {
-    Two("2"),
-    Three("3"),
-    Four("4"),
-    Five("5"),
-    Six("6"),
-    Seven("7"),
-    Eight("8"),
-    Nine("9"),
-    Ten("10"),
-    Jack("J"),
-    Queen("Q"),
-    King("K"),
-    Ace("A")
+    Two(),
+    Three(),
+    Four(),
+    Five(),
+    Six(),
+    Seven(),
+    Eight(),
+    Nine(),
+    Ten(),
+    Jack(),
+    Queen(),
+    King(),
+    Ace()
 
-    def symbol
+    static def symbolMap = [
+            "2" : Two,
+            "3" : Three,
+            "4" : Four,
+            "5" : Five,
+            "6" : Six,
+            "7" : Seven,
+            "8" : Eight,
+            "9" : Nine,
+            "10": Ten,
+            "J" : Jack,
+            "Q" : Queen,
+            "K" : King,
+            "A" : Ace
+    ].asImmutable()
 
-    Rank(String symbol){
-        this.symbol = symbol
+    static def fromSymbol(String symbol) {
+        return symbolMap[symbol]
     }
 }

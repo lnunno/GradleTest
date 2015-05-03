@@ -59,14 +59,18 @@ class Hand {
         return sets as List
     }
 
-    static def bestHand(List<Card> holeCards, List<Card> communityCards) {
-        def combos = combinations(holeCards + communityCards, PokerGame.NUM_CARDS_IN_HAND)
+    static def bestHand(List<Card> myCards, List<Card> communityCards) {
+        def combos = combinations(myCards + communityCards, PokerGame.NUM_CARDS_IN_HAND)
         def evaluatedHands = combos.collect { List<Card> it ->
             Hand hand = new Hand(it)
             hand.evaluate()
         }
         def bestHand = evaluatedHands.max()
         return bestHand
+    }
+
+    static def bestHand(Hand myCards, Hand communityCards) {
+        return bestHand(myCards.cardList, communityCards.cardList)
     }
 
     def rankUnique = { a, b -> a.rank <=> b.rank }
@@ -78,8 +82,17 @@ class Hand {
         def sortedCardListRank = cardList.sort(false);
         Rank firstRank = sortedCardListRank[0].rank
         Rank lastRank = sortedCardListRank[4].rank
+        Rank secondLastRank = sortedCardListRank[3].rank
         def rankDifference = Math.abs(firstRank.ordinal() - lastRank.ordinal())
-        boolean isStraight = (rankDifference == 4) && (cardList.unique(false, rankUnique).size() == cardList.size())
+        final def uniqueRanks = cardList.unique(false, rankUnique).size() == cardList.size()
+        boolean isStraight = (rankDifference == 4) && (uniqueRanks)
+        if (lastRank == Rank.Ace &&
+                Math.abs(firstRank.ordinal() - secondLastRank.ordinal()) == 3 &&
+                uniqueRanks
+        ) {
+            // Ace low straight.
+            isStraight = true
+        }
         def sortedCardListSuit = cardList.sort(false, { a, b -> a.suit <=> b.suit } as Comparator)
         Suit firstSuit = sortedCardListSuit[0].suit
         Suit lastSuit = sortedCardListSuit[4].suit
@@ -114,6 +127,16 @@ class Hand {
             return HandType.Pair
         }
         return HandType.High_Card
+    }
+
+    static Hand fromString(String s) {
+        Hand hand = new Hand()
+        String[] arr = s.split(",")
+        arr.each {
+            Card c = Card.fromString(it)
+            hand.addToHand(c)
+        }
+        return hand
     }
 
     @Override

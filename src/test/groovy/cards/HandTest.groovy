@@ -36,5 +36,11 @@ class HandTest extends GroovyTestCase {
                                   new Card(Rank.Five, Suit.Diamond),
                                   new Card(Rank.Six, Suit.Spade)])
         assertEquals(HandType.Straight, straight.evaluate())
+        Hand aceHighStraight = Hand.fromString("Ace of Clubs,  Five Heart,Four Heart,Two Heart,Three Spade")
+        assertEquals(HandType.Straight, aceHighStraight.evaluate())
+    }
+
+    void testBestHand() {
+        Hand communityCards = Hand.fromString()
     }
 }

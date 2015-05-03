@@ -4,14 +4,19 @@ package cards
  * Created by Lucas on 4/6/2015.
  */
 enum Suit {
-    Club("?"),
-    Diamond("?"),
-    Heart("?"),
-    Spade("?")
+    Club(),
+    Diamond(),
+    Heart(),
+    Spade()
 
-    def symbol
+    static def symbolMap = [
+            "C": Club,
+            "D": Diamond,
+            "H": Heart,
+            "S": Spade
+    ]
 
-    Suit(String symbol){
-        this.symbol = symbol
+    static def fromSymbol(String symbol) {
+        return symbolMap[symbol]
     }
 }
