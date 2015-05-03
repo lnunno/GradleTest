@@ -87,6 +87,7 @@ class Hand {
         final def uniqueRanks = cardList.unique(false, rankUnique).size() == cardList.size()
         boolean isStraight = (rankDifference == 4) && (uniqueRanks)
         if (lastRank == Rank.Ace &&
+                firstRank == Rank.Two &&
                 Math.abs(firstRank.ordinal() - secondLastRank.ordinal()) == 3 &&
                 uniqueRanks
         ) {
