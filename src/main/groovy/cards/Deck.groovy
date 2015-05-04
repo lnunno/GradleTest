@@ -59,6 +59,14 @@ class Deck {
         return cardList.get(index)
     }
 
+    def drawRandomWReplacement(int amount) {
+        def ls = []
+        for (int i = 0; i < amount; i++) {
+            ls << drawRandomWReplacement()
+        }
+        return ls
+    }
+
     /**
      * Draw a non-sequential card from the deck don't replace.
      * @return The card.
