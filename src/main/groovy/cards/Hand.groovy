@@ -141,7 +141,7 @@ class Hand {
     }
 
     @Override
-    String toString() {
-        return "Hand: " + cardList.toString()
+    public String toString() {
+        return cardList.toString()
     }
 }

@@ -3,13 +3,20 @@ package cards
 class PlayerTest extends GroovyTestCase {
 
     void testCalculateHandProbabilities() {
-        Hand communityCards = Hand.fromString("AC,2C,3C,5C")
-        Player me = new Player("Lucas")
-        Deck deck = new Deck()
-        deck.shuffle()
-        me.drawFromDeck(deck, 2)
-        println me
-        me.calculateHandProbabilities(communityCards, deck)
-        println me.probabilities
+        for (int communityCardsSize = 1; communityCardsSize <= 5; communityCardsSize++) {
+            for (int i = 0; i < 5; i++) {
+                println "=====HAND====="
+                Deck deck = Deck.shuffledDeck()
+                Hand communityCards = new Hand()
+                Player me = new Player("Lucas")
+                me.drawFromDeck(deck, 2)
+                communityCards.addToHand(deck.draw(communityCardsSize))
+                println me
+                println communityCards
+                me.calculateHandProbabilities(communityCards, deck)
+                println me.probabilities
+                println "=====ENDHAND====="
+            }
+        }
     }
 }

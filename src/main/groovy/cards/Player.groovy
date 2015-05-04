@@ -1,18 +1,15 @@
 package cards
 
-import groovy.transform.ToString
-
 /**
  * A Player in a poker game.
  * Created by Lucas on 4/14/2015.
  */
-@ToString
 class Player {
 
     String name
     Hand hand = new Hand()
     def probabilities = [:]
-    static def NUM_MONTE_CARLO_HANDS = 1000
+    static def NUM_MONTE_CARLO_HANDS = 500
 
     Player() {
         HandType.values().each {
@@ -50,6 +47,8 @@ class Player {
         def communityCardsSize = communityCards.size()
         def numCardsToDraw = PokerGame.NUM_COMMUNITY_CARDS - communityCardsSize
         if (numCardsToDraw <= 0) {
+            def handType = bestHand(communityCards)
+            probabilities[handType] = 1.0
             return
         }
         for (int i = 0; i < NUM_MONTE_CARLO_HANDS; i++) {
@@ -107,5 +106,13 @@ class Player {
 
     def discardHand() {
         hand.discard()
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", hand=" + hand +
+                '}';
     }
 }
